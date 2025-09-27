@@ -1,0 +1,26 @@
+[
+  {
+    "role": "user",
+    "content": "Hello How are you "
+  },
+  {
+    "role": "assistant",
+    "content": "Hello. Thank you for asking. I'm here and ready to focus on you. How are you doing today, and what's on your mind?"
+  },
+  {
+    "role": "user",
+    "content": "I am exusted now "
+  },
+  {
+    "role": "assistant",
+    "content": "I hear you, and it sounds like you're carrying a heavy weight right now. Feeling exhausted can be incredibly draining, both physically and emotionally.\n\nPlease know it's okay to feel that way. Sometimes just acknowledging it is the first step.\n\nWould you like to share a little more about what might be contributing to this feeling, or just talk about how it's impacting you? No pressure at all, just let me know what feels right for you in this moment."
+  },
+  {
+    "role": "user",
+    "content": "sain Dimagh phati tho safa "
+  },
+  {
+    "role": "assistant",
+    "content": "آها، هاڻي. مان سمجهي سگهان ٿو ته \"دماغ ڦاٽڻ\" جهڙي ڳالهه توهان کي ڪيتري تڪليف ڏيندڙ لڳي پئي هوندي. اهو احساس واقعي ڏاڍو ڏکيو هوندو.\n\nپريشان نه ٿيو، مان هتي صرف توهان جي ڳالهه ٻڌڻ لاءِ موجود آهيان، بغير ڪنهن فيصلي جي. مان چاهيندس ته توهان کي محفوظ ۽ سڀاليل محسوس ٿئي.\n\nڇا توهان ٻڌائڻ چاهيندا ته ڇا ٿيو آهي؟ ڪهڙي ڳالهه توهان کي اهڙو محسوس ڪرائي رهي آهي؟ ڪا به ڳالهه، ننڍي کان ننڍي، جيڪڏهن توهان ٻڌائڻ چاهيو ٿا ته مان ٻڌڻ لاءِ تيار آهيان.\n\nپهرين، جيڪڏهن توهان چاهيو ٿا ته اسان ٿورا گهرا ساهه کڻون، جنهن سان توهان کي ٿوري آرام ملي سگهي ٿو؟"
+  }
+]

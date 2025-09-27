@@ -5,15 +5,11 @@ def show_header():
     if "page" not in st.session_state:
         st.session_state.page = "Home"
 
-    # --- Determine menu items ---
-    if st.session_state.get("logged_in"):
-        menu_items = ["Home", "About", "Contact", "Chat"]
-    else:
-        menu_items = ["Home", "About", "Contact", "Login / Sign Up"]
+    # --- Fixed Menu Items ---
+    menu_items = ["Home", "About", "Contact", "Chat", "Login / Sign Up"]
 
     # --- CSS Styling ---
-    st.markdown(
-        """
+    st.markdown("""
         <style>
         .header {
             display: flex;
@@ -54,23 +50,22 @@ def show_header():
             color: white;
         }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
     # --- Render header ---
     col1, col2 = st.columns([1, 3])
 
+    # Logo
     with col1:
         st.image("https://greenzoneliving.org/_next/image/GREENZONE-LIVING.webp", width=120)
 
+    # Menu
     with col2:
         menu_cols = st.columns(len(menu_items))
         for idx, item in enumerate(menu_items):
             btn_placeholder = menu_cols[idx].empty()
             if btn_placeholder.button(item, key=f"menu_{item}"):
                 st.session_state.page = item
-
             # Highlight active button
             if st.session_state.page == item:
                 btn_placeholder.markdown(
@@ -78,10 +73,4 @@ def show_header():
                     unsafe_allow_html=True
                 )
 
-    # --- Return current page ---
     return st.session_state.page
-
-
-# Example usage
-page = show_header()
-st.write(f"### Current Page: {page}")

@@ -1,0 +1,18 @@
+[
+  {
+    "role": "user",
+    "content": "Hello "
+  },
+  {
+    "role": "assistant",
+    "content": "Hello. It's good to connect with you. I'm here to listen and provide support. How are you feeling today? Is there anything specific you'd like to talk about? Remember, this is a safe space, and you can share whatever is on your mind.\n"
+  },
+  {
+    "role": "user",
+    "content": "I am Good , some has hurt me "
+  },
+  {
+    "role": "assistant",
+    "content": "I'm glad to hear that overall you're good, but I'm sorry to hear that someone has hurt you. That sounds difficult. \n\nIt's okay to feel whatever you're feeling right now. Hurt can bring up a lot of different emotions, like sadness, anger, confusion, or even a sense of betrayal.\n\nWould you like to tell me more about what happened? Talking about it can sometimes help to process the experience and begin to heal. If you're not ready to talk about the specifics, that's perfectly okay too. We can also explore general strategies for coping with hurt feelings.\n\nJust let me know what feels most comfortable for you right now. I'm here to listen and support you.\n"
+  }
+]
