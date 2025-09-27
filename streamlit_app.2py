@@ -1,0 +1,265 @@
+import streamlit as st
+import json
+import os
+from google import genai
+from google.genai import types
+
+# --------------------------
+# Config
+# --------------------------
+USER_FILE = "users.json"
+CHAT_DIR = "chat_data"
+CONTACT_FILE = "contacts.json"
+os.makedirs(CHAT_DIR, exist_ok=True)
+
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+
+# --------------------------
+# Helpers
+# --------------------------
+def load_json(path, default):
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = f.read().strip()
+                return json.loads(data) if data else default
+        except json.JSONDecodeError:
+            return default
+    return default
+
+def save_json(path, data):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def user_chat_file(username):
+    return os.path.join(CHAT_DIR, f"{username}.json")
+
+def load_users():
+    return load_json(USER_FILE, {})
+
+def save_users(users):
+    save_json(USER_FILE, users)
+
+def load_history(username):
+    return load_json(user_chat_file(username), [])
+
+def save_history(username, history):
+    save_json(user_chat_file(username), history)
+
+def save_contact(contact):
+    contacts = load_json(CONTACT_FILE, [])
+    contacts.append(contact)
+    save_json(CONTACT_FILE, contacts)
+
+# --------------------------
+# Styling
+# --------------------------
+st.markdown("""
+<style>
+/* Global */
+body {
+    background-color: #f8fff8;
+    font-family: 'Segoe UI', sans-serif;
+}
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #eafbe7;
+    padding: 15px;
+    border-radius: 12px;
+}
+/* Chat Bubbles */
+.user-bubble {
+    background: #d0ebff;
+    padding: 10px 15px;
+    border-radius: 12px;
+    margin: 5px 0;
+}
+.bot-bubble {
+    background: #d9fcd9;
+    padding: 10px 15px;
+    border-radius: 12px;
+    margin: 5px 0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# --------------------------
+# Session State
+# --------------------------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+    st.session_state.username = None
+    st.session_state.messages = []
+
+# --------------------------
+# Login / Signup
+# --------------------------
+if not st.session_state.logged_in:
+    st.title("🟢 Green Zone Login")
+    users = load_users()
+
+    tab1, tab2 = st.tabs(["🔑 Login", "🆕 Sign Up"])
+
+    # ----- Login -----
+    with tab1:
+        username = st.text_input("Username (Email)", key="login_username")
+        password = st.text_input("Password", type="password", key="login_password")
+        if st.button("Login", key="login_button"):
+            if username in users and users[username]["password"] == password:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.session_state.messages = load_history(username)
+                st.success(f"Welcome back, {users[username]['first_name']}!")
+                st.rerun()
+            else:
+                st.error("Invalid username or password")
+
+    # ----- Signup -----
+    with tab2:
+        first_name = st.text_input("First Name", key="signup_first_name")
+        last_name = st.text_input("Last Name", key="signup_last_name")
+        email = st.text_input("Email (will be your username)", key="signup_email")
+        new_pass = st.text_input("Password", type="password", key="signup_password")
+        if st.button("Sign Up", key="signup_button"):
+            if not first_name or not last_name or not email or not new_pass:
+                st.error("Please complete all fields")
+            elif email in users:
+                st.error("User already exists with this email")
+            else:
+                users[email] = {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "password": new_pass
+                }
+                save_users(users)
+                st.success("✅ Account created! Please login.")
+
+else:
+    # --------------------------
+    # Navigation
+    # --------------------------
+    users = load_users()
+    user_info = users[st.session_state.username]
+    full_name = f"{user_info['first_name']} {user_info['last_name']}"
+
+    st.sidebar.title(f"👋 Hello, {full_name}")
+    if st.sidebar.button("🚪 Logout", key="logout_button"):
+        st.session_state.logged_in = False
+        st.session_state.username = None
+        st.session_state.messages = []
+        st.rerun()
+
+    page = st.sidebar.radio(
+        "Navigation", 
+        ["🏠 Home", "ℹ️ About Us", "📩 Contact Us", "💬 Chat"], 
+        key="nav_radio"
+    )
+
+    # --------------------------
+    # Home Page
+    # --------------------------
+    if page == "🏠 Home":
+        st.title("🌱 Welcome to Green Zone AI")
+        st.subheader("Your safe multilingual AI companion.")
+        st.markdown("""
+        **Green Zone AI** is designed to be your personal:
+        - 🧠 Therapist – Share your thoughts safely.  
+        - 📚 Learner – Ask and explore knowledge.  
+        - 🚀 Motivator – Get daily positivity.  
+
+        ✨ Features:  
+        - Supports **English, Urdu, Sindhi**.  
+        - Remembers conversations (per-user).  
+        - Upload and discuss your documents.  
+        - Fully private and secure.
+        """)
+
+    # --------------------------
+    # About Us
+    # --------------------------
+    elif page == "ℹ️ About Us":
+        st.title("ℹ️ About Green Zone")
+        st.markdown("""
+        Green Zone AI is a project built to create a **safe emotional & learning space**  
+        where users can express themselves in multiple languages.  
+
+        Our mission is to:  
+        - Provide accessible AI support 🌍  
+        - Encourage self-growth 📈  
+        - Promote mental well-being 💚  
+
+        > “Technology should heal, not harm.”  
+        """)
+
+    # --------------------------
+    # Contact Us
+    # --------------------------
+    elif page == "📩 Contact Us":
+        st.title("📩 Get in Touch")
+        st.write("We’d love to hear from you. Please fill out this form:")
+
+        with st.form("contact_form"):
+            name = st.text_input("Your Name", key="contact_name")
+            email = st.text_input("Email Address", key="contact_email")
+            message = st.text_area("Message", key="contact_message")
+            submitted = st.form_submit_button("Send", key="contact_submit")
+
+            if submitted:
+                if not name or not email or not message:
+                    st.error("Please complete all fields.")
+                else:
+                    save_contact({"name": name, "email": email, "message": message})
+                    st.success("✅ Message sent! We'll get back to you soon.")
+
+    # --------------------------
+    # Chat Page
+    # --------------------------
+    elif page == "💬 Chat":
+        st.title("💬 Chat with Green Zone AI")
+        st.caption("Multilingual AI Therapist, Learner, Motivator")
+
+        # Decorative chat icon
+        st.markdown("<div style='font-size:50px; text-align:right;'>💬</div>", unsafe_allow_html=True)
+
+        mode = st.sidebar.radio("Mode", ["Therapist", "Learner", "Motivator"], key="chat_mode")
+        language = st.sidebar.selectbox("Language", ["English", "Urdu", "Sindhi"], key="chat_language")
+        custom_instructions = st.sidebar.text_area("Custom Instructions", key="chat_instructions")
+
+        uploaded_file = st.sidebar.file_uploader("📄 Upload Document", type=["txt", "md"], key="chat_file")
+        doc_content = None
+        if uploaded_file:
+            doc_content = uploaded_file.read().decode("utf-8")
+
+        user_input = st.chat_input("Type your thoughts...", key="chat_input")
+        if user_input:
+            st.session_state.messages.append({"role": "user", "content": user_input})
+
+            contents = []
+            if doc_content:
+                contents.append(doc_content)
+            prompt = f"""
+            You are in {mode} mode.
+            Language: {language}.
+            Follow these custom instructions: {custom_instructions}.
+            User said: {user_input}
+            """
+            contents.append(prompt)
+
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=contents
+            )
+            bot_reply = response.text
+            st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+            save_history(st.session_state.username, st.session_state.messages)
+
+        for msg in st.session_state.messages:
+            if msg["role"] == "user":
+                st.markdown(f"<div class='user-bubble'><b>You:</b> {msg['content']}</div>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<div class='bot-bubble'><b>AI:</b> {msg['content']}</div>", unsafe_allow_html=True)
+
+        if st.sidebar.button("🗑️ Clear Chat", key="clear_chat"):
+            st.session_state.messages = []
+            save_history(st.session_state.username, [])
+            st.rerun()
