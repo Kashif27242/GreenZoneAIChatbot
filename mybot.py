@@ -9,7 +9,8 @@ CHAT_DIR = "chat_data"
 os.makedirs(CHAT_DIR, exist_ok=True)
 
 # --- Gemini API Client ---
-client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+client = genai.Client(api_key="AIzaSyBfmdkclHwh3-KEwpPeiVEZJSxSy59EbF0")
+
 
 # --- Helper Functions ---
 def user_chat_file(username):
