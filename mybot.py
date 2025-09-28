@@ -3,6 +3,7 @@ from google import genai
 import json
 import os
 import uuid
+from components.header import show_header 
 
 # --- Config ---
 CHAT_DIR = "chat_data"
@@ -49,6 +50,7 @@ def update_chat(username, chat_id, messages):
 
 # --- Main Chat UI ---
 def show():
+    show_header()
     if not st.session_state.is_authenticated:
         st.warning("⚠️ You must login first to access the Chat.")
         if st.button("Go to Login / Sign Up", key="chat_login_btn"):
@@ -198,5 +200,6 @@ def show():
             current_chat["messages"].append({"role": "assistant", "content": bot_reply})
             update_chat(username, current_chat_id, current_chat["messages"])
             st.rerun()
+        
 
         st.markdown('</div>', unsafe_allow_html=True)

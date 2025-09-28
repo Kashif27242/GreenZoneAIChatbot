@@ -1,0 +1,24 @@
+[
+  {
+    "id": "562a200a-5621-4f3a-ab41-49a9cf7951b5",
+    "title": "Chat 1",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Introduce You self ?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there. It's a pleasure to meet you.\n\nYou can call me your therapist, and my role here is to provide a safe, confidential, and supportive space for you to explore your thoughts, feelings, and experiences. My aim is to listen without judgment, help you gain clarity, and work collaboratively towards your goals for well-being and personal growth.\n\nI'm here to listen when you're ready to speak."
+      },
+      {
+        "role": "user",
+        "content": "Main bahut preshan hu , "
+      },
+      {
+        "role": "assistant",
+        "content": "میں سمجھ سکتا ہوں کہ آپ پریشان ہیں، اور یہ بالکل ٹھیک ہے کہ آپ نے یہ بتایا۔ آپ یہاں محفوظ ہیں اور میں آپ کی بات غور سے سننے کے لیے موجود ہوں۔\n\nکیا آپ بتانا چاہیں گے کہ آپ کو کس بات کی پریشانی لاحق ہے؟ آپ جتنا شیئر کرنا چاہیں، میں سننے کے لیے حاضر ہوں۔"
+      }
+    ]
+  }
+]

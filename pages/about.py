@@ -5,14 +5,6 @@ def show():
     st.markdown(
         """
         <style>
-        .about-container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
         .about-header {
             text-align: center;
             margin-bottom: 40px;
@@ -43,9 +35,6 @@ def show():
         """,
         unsafe_allow_html=True
     )
-
-    # --- Container ---
-    st.markdown("<div class='about-container'>", unsafe_allow_html=True)
 
     # --- Header ---
     st.markdown(
@@ -99,12 +88,9 @@ def show():
             <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4" />
             <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" />
             <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" />
-            <img src="https://images.unsplash.com/photo-1524492449090-0f3c9f1d43f4" />
             <img src="https://images.unsplash.com/photo-1515168833906-d2a3b82b302a" />
             <img src="https://images.unsplash.com/photo-1504593811423-6dd665756598" />
         </div>
         """,
         unsafe_allow_html=True
     )
-
-    st.markdown("</div>", unsafe_allow_html=True)
