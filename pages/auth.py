@@ -1,6 +1,18 @@
 import streamlit as st
 
 def show():
+       # --- Header Banner ---
+    st.markdown(
+        """
+        <div style="background: linear-gradient(90deg, #2e7d32, #66bb6a);
+                    padding: 25px; border-radius: 15px;
+                    color: white; text-align: center; font-family: Arial;">
+            <h2>🔑 Welcome to GreenZone AI</h2>
+            <p>Login or create a new account to continue your journey with us.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     st.title("🔑 Login / Sign Up")
 
     tab1, tab2 = st.tabs(["Login", "Sign Up"])

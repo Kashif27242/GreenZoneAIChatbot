@@ -97,6 +97,4 @@ def show():
 
     # --- CTA ---
     st.markdown("<div class='section'><h2>🚀 Begin Your Healing Journey</h2></div>", unsafe_allow_html=True)
-    if st.button("💬 Start Talking to Your AI Therapist", key="start_chat"):
-        st.session_state.page = "Chat"
-        st.rerun()
+ 

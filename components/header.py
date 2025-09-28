@@ -5,8 +5,8 @@ def show_header():
     if "page" not in st.session_state:
         st.session_state.page = "Home"
 
-    # --- Fixed Menu Items ---
-    menu_items = ["Home", "About", "Contact", "Chat", "Login / Sign Up"]
+    # --- Fixed Menu Items (no Login/Sign Up here) ---
+    menu_items = ["Home", "About", "Contact", "Chat"]
 
     # --- CSS Styling ---
     st.markdown("""
@@ -57,7 +57,10 @@ def show_header():
 
     # Logo
     with col1:
-        st.image("https://greenzoneliving.org/_next/image/GREENZONE-LIVING.webp", width=120)
+        st.image(
+            "https://greenzoneliving.org/_next/image/GREENZONE-LIVING.webp",
+            width=120
+        )
 
     # Menu
     with col2:
@@ -66,6 +69,7 @@ def show_header():
             btn_placeholder = menu_cols[idx].empty()
             if btn_placeholder.button(item, key=f"menu_{item}"):
                 st.session_state.page = item
+                st.rerun()  # Ensure immediate redirect
             # Highlight active button
             if st.session_state.page == item:
                 btn_placeholder.markdown(
